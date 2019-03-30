@@ -8,7 +8,7 @@
    <children>
       <ScrollPane fitToWidth="true" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-            <AnchorPane>
+            <AnchorPane minWidth="500">
                <children>
                   <VBox layoutX="0.017578125" styleClass="main-content" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -46,7 +46,7 @@
                                        <children>
                                           <Label styleClass="form-label" text="Car price ($)" />
                                           <TextField fx:id="carPriceInputField" styleClass="form-control" />
-                                          <Label styleClass="text-muted" text="After negotiations" />
+                                          <Label styleClass="text-muted" text="After negotiations" wrapText="true" />
                                           <Label fx:id="monthlyPaymentErrorLabel" styleClass="text-error" />
                                        </children>
                                        <VBox.margin>
@@ -57,7 +57,7 @@
                                        <children>
                                           <Label styleClass="form-label" text="Trade-in / down payment ($)" />
                                           <TextField fx:id="downPaymentInputField" styleClass="form-control" />
-                                          <Label styleClass="text-muted" text="Your trade-in can be all or part of a down payment" />
+                                          <Label styleClass="text-muted" text="Your trade-in can be all or part of a down payment" wrapText="true" />
                                           <Label fx:id="downPaymentErrorLabel" styleClass="text-error" />
                                        </children>
                                     </VBox>
@@ -65,7 +65,7 @@
                                        <children>
                                           <Label styleClass="form-label" text="Interest rate (%)" />
                                           <TextField fx:id="interestRateInputField" styleClass="form-control" />
-                                          <Label styleClass="text-muted" text="A higher credit score means lower interest rates" />
+                                          <Label styleClass="text-muted" text="A higher credit score means lower interest rates" wrapText="true" />
                                           <Label fx:id="interestRateErrorLabel" styleClass="text-error" />
                                        </children>
                                     </VBox>
@@ -73,7 +73,7 @@
                                        <children>
                                           <Label styleClass="form-label" text="Number of months" />
                                           <TextField fx:id="numberOfMonthsInputField" styleClass="form-control" />
-                                          <Label styleClass="text-muted" text="Suggested max: 36 months for used cars, 60 for new" />
+                                          <Label styleClass="text-muted" text="Suggested max: 36 months for used cars, 60 for new. We do not finance you less than 1 month" wrapText="true" />
                                           <Label fx:id="numberOfMonthsErrorLabel" styleClass="text-error" />
                                        </children>
                                     </VBox>
@@ -90,14 +90,14 @@
                                        <children>
                                           <Label styleClass="form-label" text="Monthly payment" />
                                           <Label fx:id="monthlyPaymentResultLabel" styleClass="text-result" />
-                                          <Label styleClass="text-muted" text="(Before taxes &amp; fees)" />
+                                          <Label styleClass="text-muted" text="(Before taxes &amp; fees)" wrapText="true" />
                                        </children>
                                     </VBox>
                                     <VBox layoutX="10.0" layoutY="56.0" styleClass="result-group">
                                        <children>
                                           <Label styleClass="form-label" text="Total amount paid" />
                                           <Label fx:id="totalAmountPaidResultLabel" styleClass="text-result" />
-                                          <Label styleClass="text-muted" text="(Over the life of the loan)" />
+                                          <Label styleClass="text-muted" text="(Over the life of the loan)" wrapText="true" />
                                        </children>
                                     </VBox>
                                     <VBox layoutX="10.0" layoutY="161.0" styleClass="result-group">
