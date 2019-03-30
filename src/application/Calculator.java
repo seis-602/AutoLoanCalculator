@@ -100,7 +100,7 @@ public class Calculator {
 	}
 	
 	
-	private boolean isNumeric(String str) {
+	public static boolean isNumeric(String str) {
 		try {
 			Double.parseDouble(str);
 			return true;

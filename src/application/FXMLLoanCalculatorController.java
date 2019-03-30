@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.StringBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -22,6 +23,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 	@FXML
 	private Label creditBracketDescriptionLabel;
 	
+	
 	@FXML
 	private TextField carPriceInputField;
 	
@@ -34,6 +36,20 @@ public class FXMLLoanCalculatorController implements Initializable {
 	@FXML
 	private TextField numberOfMonthsInputField;
 	
+	
+	@FXML
+	private Label monthlyPaymentErrorLabel;
+	
+	@FXML
+	private Label downPaymentErrorLabel;
+
+	@FXML
+	private Label interestRateErrorLabel;
+	
+	@FXML
+	private Label numberOfMonthsErrorLabel;
+	
+	
 	@FXML
 	private Label monthlyPaymentResultLabel;
 	
@@ -42,6 +58,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 	
 	@FXML
 	private Label totalInterestPaidResultLabel;
+	
 	
 	@FXML
     private URL location;
@@ -75,10 +92,76 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 		});
 		
+		bindVerifyValidInputs();
+		
 		bindMonthlyPayments();
 		bindTotalAmountPaid();
 		bindTotalInterestPaid();
 	}
+	
+	private void bindVerifyValidInputs() {
+		StringBinding carPriceErrorMessage = new StringBinding() { 
+			{
+				super.bind(carPriceInputField.textProperty());
+			}
+			
+			@Override
+			protected String computeValue() {
+				String carPriceString = carPriceInputField.getText().trim();
+				if (!carPriceString.isEmpty() && !Calculator.isNumeric(carPriceString)) {
+					return "Please enter a valid number.";
+				} else return "";
+			}
+		};
+		
+		StringBinding downPaymentErrorMessage = new StringBinding() { 
+			{
+				super.bind(downPaymentInputField.textProperty());
+			}
+			
+			@Override
+			protected String computeValue() {
+				String downPaymentString = downPaymentInputField.getText().trim();
+				if (!downPaymentString.isEmpty() && !Calculator.isNumeric(downPaymentString)) {
+					return "Please enter a valid number.";
+				} else return "";
+			}
+		};
+		
+		StringBinding interestRateErrorMessage = new StringBinding() { 
+			{
+				super.bind(interestRateInputField.textProperty());
+			}
+			
+			@Override
+			protected String computeValue() {
+				String interestRateString = interestRateInputField.getText().trim();
+				if (!interestRateString.isEmpty() && !Calculator.isNumeric(interestRateString)) {
+					return "Please enter a valid number.";
+				} else return "";
+			}
+		};
+		
+		StringBinding numberOfMonthsErrorMessage = new StringBinding() { 
+			{
+				super.bind(numberOfMonthsInputField.textProperty());
+			}
+			
+			@Override
+			protected String computeValue() {
+				String numberOfMonthsString = numberOfMonthsInputField.getText().trim();
+				if (!numberOfMonthsString.isEmpty() && !Calculator.isNumeric(numberOfMonthsString)) {
+					return "Please enter a valid number.";
+				} else return "";
+			}
+		};
+		
+		monthlyPaymentErrorLabel.textProperty().bind(carPriceErrorMessage);
+		downPaymentErrorLabel.textProperty().bind(downPaymentErrorMessage);
+		interestRateErrorLabel.textProperty().bind(interestRateErrorMessage);
+		numberOfMonthsErrorLabel.textProperty().bind(numberOfMonthsErrorMessage);
+	}
+	
 	
 	private void bindMonthlyPayments() {
 		
