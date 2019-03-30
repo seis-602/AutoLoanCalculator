@@ -1,5 +1,7 @@
 package application;
 
+import java.text.DecimalFormat;
+
 import javafx.scene.control.TextField;
 
 /*
@@ -14,6 +16,7 @@ import javafx.scene.control.TextField;
 public class Calculator {
 	
 	private final int numberOfMonthsInOneYear = 12;
+	private static DecimalFormat df2 = new DecimalFormat(".##");
 
 	public double computeMonthlyPayment(TextField carPriceInputField, TextField downPaymentInputField, TextField interestRateInputField, TextField numberOfMonthsInputField)
 	{
@@ -56,7 +59,7 @@ public class Calculator {
 			}
 		}
 		
-		return monthlyPayment;
+		return Double.parseDouble(df2.format(monthlyPayment));
 			
 	}
 	
@@ -78,9 +81,11 @@ public class Calculator {
 	{
 		String carPriceString = carPriceInputField.getText().trim();
 		String downPaymentString = downPaymentInputField.getText().trim();
+		String interestRateString = downPaymentInputField.getText().trim();
 		
 		double carPrice = 0;
 		double downPayment = 0;
+		double annualInterestRate = 0;
 		
 		double totalAmountPaid = this.computeTotalAmountPaid(carPriceInputField, downPaymentInputField, interestRateInputField, numberOfMonthsInputField);
 		
@@ -92,7 +97,11 @@ public class Calculator {
 			downPayment = Double.parseDouble(downPaymentInputField.getText().trim());
 		}
 		
-		if (totalAmountPaid != 0) {
+		if (!interestRateString.isEmpty() && isNumeric(interestRateString)) {
+			annualInterestRate = Double.parseDouble(interestRateInputField.getText().trim());
+		}
+		
+		if (annualInterestRate != 0 && totalAmountPaid != 0) {
 			return totalAmountPaid - (carPrice - downPayment);
 		}
 		
@@ -103,7 +112,7 @@ public class Calculator {
 	public static boolean isNumeric(String str) {
 		try {
 			Double number = Double.parseDouble(str);
-			return number > 0;
+			return number >= 0;
 		} catch(NumberFormatException e) {
 			return false;
 		}
