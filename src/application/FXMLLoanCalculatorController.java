@@ -14,8 +14,9 @@ import javafx.scene.control.TextField;
 
 public class FXMLLoanCalculatorController implements Initializable {
 	
-	CreditBracketModel creditBracketmodel = new CreditBracketModel();
-	Calculator calculator = new Calculator();
+	private CreditBracketModel creditBracketmodel = new CreditBracketModel();
+	private Calculator calculator = new Calculator();
+	private FormValidator formValidator = new FormValidator();
 	
 	@FXML
 	private ComboBox<CreditBracket> creditBracketComboBox;
@@ -107,9 +108,10 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 			@Override
 			protected String computeValue() {
-				String carPriceString = carPriceInputField.getText().trim();
-				if (!carPriceString.isEmpty() && !Calculator.isNumeric(carPriceString)) {
-					return "Please enter a valid number.";
+				InputValidator inputValidator = formValidator.validCarPrice(carPriceInputField);
+				
+				if(!inputValidator.isValid()) {
+					return inputValidator.getErrorMessage();
 				} else return "";
 			}
 		};
@@ -121,9 +123,10 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 			@Override
 			protected String computeValue() {
-				String downPaymentString = downPaymentInputField.getText().trim();
-				if (!downPaymentString.isEmpty() && !Calculator.isNumeric(downPaymentString)) {
-					return "Please enter a valid number.";
+				InputValidator inputValidator = formValidator.validDownPayment(downPaymentInputField);
+				
+				if(!inputValidator.isValid()) {
+					return inputValidator.getErrorMessage();
 				} else return "";
 			}
 		};
@@ -135,9 +138,10 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 			@Override
 			protected String computeValue() {
-				String interestRateString = interestRateInputField.getText().trim();
-				if (!interestRateString.isEmpty() && !Calculator.isNumeric(interestRateString)) {
-					return "Please enter a valid number.";
+				InputValidator inputValidator = formValidator.validInterestRate(interestRateInputField);
+				
+				if(!inputValidator.isValid()) {
+					return inputValidator.getErrorMessage();
 				} else return "";
 			}
 		};
@@ -149,9 +153,10 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 			@Override
 			protected String computeValue() {
-				String numberOfMonthsString = numberOfMonthsInputField.getText().trim();
-				if (!numberOfMonthsString.isEmpty() && !Calculator.isNumeric(numberOfMonthsString)) {
-					return "Please enter a valid number.";
+				InputValidator inputValidator = formValidator.validNumberOfMonths(numberOfMonthsInputField);
+				
+				if(!inputValidator.isValid()) {
+					return inputValidator.getErrorMessage();
 				} else return "";
 			}
 		};

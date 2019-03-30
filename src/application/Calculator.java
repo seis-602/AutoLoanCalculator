@@ -99,11 +99,11 @@ public class Calculator {
 		return 0;
 	}
 	
-	
+	// positive numeric only
 	public static boolean isNumeric(String str) {
 		try {
-			Double.parseDouble(str);
-			return true;
+			Double number = Double.parseDouble(str);
+			return number > 0;
 		} catch(NumberFormatException e) {
 			return false;
 		}
