@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="850.0" styleClass="body" stylesheets="@application.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLLoanCalculatorController">
+   <children>
+      <ScrollPane fitToWidth="true" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane>
+               <children>
+                  <VBox layoutX="0.017578125" styleClass="main-content" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <VBox styleClass="header-box">
+                           <children>
+                              <Label styleClass="header-label" text="Car payment calculator" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <GridPane hgap="30.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <VBox styleClass="form-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="What's your credit score?" />
+                                          <ComboBox fx:id="creditBracketComboBox" maxWidth="1.7976931348623157E308" promptText="Select Credit Bracket" styleClass="form-control" />
+                                          <Label fx:id="creditBracketDescriptionLabel" styleClass="text-label" wrapText="true">
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="10.0" styleClass="form-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="Car price ($)" />
+                                          <TextField fx:id="carPriceInputField" styleClass="form-control" />
+                                          <Label styleClass="text-muted" text="After negotiations" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="167.0" styleClass="form-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="Trade-in / down payment ($)" />
+                                          <TextField fx:id="downPaymentInputField" styleClass="form-control" />
+                                          <Label styleClass="text-muted" text="Your trade-in can be all or part of a down payment" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="265.0" styleClass="form-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="Interest rate (%)" />
+                                          <TextField fx:id="interestRateInputField" styleClass="form-control" />
+                                          <Label styleClass="text-muted" text="A higher credit score means lower interest rates" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="363.0" styleClass="form-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="Number of months" />
+                                          <TextField fx:id="numberOfMonthsInputField" styleClass="form-control" />
+                                          <Label styleClass="text-muted" text="Suggested max: 36 months for used cars, 60 for new" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                                 <children>
+                                    <VBox styleClass="result-group">
+                                       <children>
+                                          <Label styleClass="header2-label" text="Payment details" />
+                                       </children>
+                                    </VBox>
+                                    <VBox styleClass="result-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="Monthly payment" />
+                                          <Label fx:id="monthlyPaymentResultLabel" styleClass="text-result" />
+                                          <Label styleClass="text-muted" text="(Before taxes &amp; fees)" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="56.0" styleClass="result-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="Total amount paid" />
+                                          <Label fx:id="totalAmountPaidResultLabel" styleClass="text-result" />
+                                          <Label styleClass="text-muted" text="(Over the life of the loan)" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="161.0" styleClass="result-group">
+                                       <children>
+                                          <Label styleClass="form-label" text="Total interest paid" />
+                                          <Label fx:id="totalInterestPaidResultLabel" styleClass="text-result" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
