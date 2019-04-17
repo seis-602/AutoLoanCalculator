@@ -81,7 +81,7 @@ public class Calculator {
 	{
 		String carPriceString = carPriceInputField.getText().trim();
 		String downPaymentString = downPaymentInputField.getText().trim();
-		String interestRateString = downPaymentInputField.getText().trim();
+		String interestRateString = interestRateInputField.getText().trim();
 		
 		double carPrice = 0;
 		double downPayment = 0;

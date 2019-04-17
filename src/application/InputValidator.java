@@ -1,6 +1,6 @@
 package application;
 
-public class InputValidator {
+public class InputValidator implements Validator {
 	
 	private boolean valid;
 	private String errorMessage;
