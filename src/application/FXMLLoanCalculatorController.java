@@ -18,67 +18,65 @@ public class FXMLLoanCalculatorController implements Initializable {
 	private Calculator calculator = new Calculator();
 	private FormValidator formValidator = new FormValidator();
 	
+	
 	@FXML
 	private ComboBox<CreditBracket> creditBracketComboBox;
-	
 	@FXML
 	private Label creditBracketDescriptionLabel;
 	
 	
 	@FXML
 	private TextField carPriceInputField;
-	
 	@FXML
 	private TextField downPaymentInputField;
-	
 	@FXML
 	private TextField interestRateInputField;
-	
 	@FXML
 	private TextField numberOfMonthsInputField;
 	
 	
 	@FXML
 	private Label monthlyPaymentErrorLabel;
-	
 	@FXML
 	private Label downPaymentErrorLabel;
-
 	@FXML
 	private Label interestRateErrorLabel;
-	
 	@FXML
 	private Label numberOfMonthsErrorLabel;
 	
 	
 	@FXML
 	private Label monthlyPaymentResultLabel;
-	
 	@FXML
 	private Label totalAmountPaidResultLabel;
-	
 	@FXML
 	private Label totalInterestPaidResultLabel;
 	
 	
 	@FXML
     private URL location;
-
     @FXML
     private ResourceBundle resources;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
 		System.out.println("Application Window Opened");
-		
 		setupActions();
-		
 	}
 	
 	
 	void setupActions() {
 		
+		setupCreditBracket();
+		
+		bindValidateInputs();
+		
+		bindMonthlyPayments();
+		bindTotalAmountPaid();
+		bindTotalInterestPaid();
+	}
+	
+	public void setupCreditBracket() {
 		// bind itemsComboBox with data
 		creditBracketmodel.loadData();
 		creditBracketComboBox.setItems(creditBracketmodel.itemsObservableList);
@@ -92,15 +90,9 @@ public class FXMLLoanCalculatorController implements Initializable {
 			}
 			
 		});
-		
-		bindVerifyValidInputs();
-		
-		bindMonthlyPayments();
-		bindTotalAmountPaid();
-		bindTotalInterestPaid();
 	}
 	
-	private void bindVerifyValidInputs() {
+	private void bindValidateInputs() {
 		StringBinding carPriceErrorMessage = new StringBinding() { 
 			{
 				super.bind(carPriceInputField.textProperty());
@@ -108,7 +100,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 			@Override
 			protected String computeValue() {
-				InputValidator inputValidator = formValidator.validCarPrice(carPriceInputField);
+				InputValidator inputValidator = formValidator.validPositiveNumber(carPriceInputField);
 				
 				if(!inputValidator.isValid()) {
 					return inputValidator.getErrorMessage();
@@ -123,7 +115,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 			@Override
 			protected String computeValue() {
-				InputValidator inputValidator = formValidator.validDownPayment(downPaymentInputField);
+				InputValidator inputValidator = formValidator.validPositiveNumber(downPaymentInputField);
 				
 				if(!inputValidator.isValid()) {
 					return inputValidator.getErrorMessage();
@@ -138,7 +130,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 			
 			@Override
 			protected String computeValue() {
-				InputValidator inputValidator = formValidator.validInterestRate(interestRateInputField);
+				InputValidator inputValidator = formValidator.validPositiveNumber(interestRateInputField);
 				
 				if(!inputValidator.isValid()) {
 					return inputValidator.getErrorMessage();

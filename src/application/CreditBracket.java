@@ -3,21 +3,21 @@ package application;
 public class CreditBracket {
 	
 	private String name;
-	private int max_score;
-	private int min_score;
-	private double average_rate_new;
-	private double average_rate_used;
+	private int maxScore;
+	private int minScore;
+	private double averageRateNew;
+	private double averageRateUsed;
 
-	CreditBracket (String name, int max_score,  int min_score, double average_rate_new, double average_rate_used) {
+	CreditBracket (String name, int maxScore, int minScore, double averageRateNew, double averageRateUsed) {
 		this.name = name;
-		this.max_score = max_score;
-		this.min_score = min_score;
-		this.average_rate_new = average_rate_new;
-		this.average_rate_used = average_rate_used;
+		this.maxScore = maxScore;
+		this.minScore = minScore;
+		this.averageRateNew = averageRateNew;
+		this.averageRateUsed = averageRateUsed;
 	}
 	
 	private String getBracket() {
-		return Integer.toString(min_score).concat(" - ").concat(Integer.toString(max_score));
+		return Integer.toString(minScore).concat(" - ").concat(Integer.toString(maxScore));
 	}
 	
 	public String getName()
@@ -27,12 +27,12 @@ public class CreditBracket {
 	
 	public double getAverageUsedCarInterestRate()
 	{
-		return average_rate_used;
+		return averageRateUsed;
 	}
 	
 	public double getAverageNewCarInterestRate()
 	{
-		return average_rate_new;
+		return averageRateNew;
 	}
 	
 	@Override

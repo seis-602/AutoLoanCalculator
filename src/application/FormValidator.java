@@ -4,15 +4,7 @@ import javafx.scene.control.TextField;
 
 public class FormValidator {
 	
-	public InputValidator validCarPrice(TextField input) {
-		return checkForValidPositiveNumber(input);
-	}
-	
-	public InputValidator validDownPayment(TextField input) {
-		return checkForValidPositiveNumber(input);
-	}
-	
-	public InputValidator validInterestRate(TextField input) {
+	public InputValidator validPositiveNumber(TextField input) {
 		return checkForValidPositiveNumber(input);
 	}
 	
@@ -21,7 +13,7 @@ public class FormValidator {
 		
 		if (validator.isValid() && !input.getText().trim().isEmpty()) {
 			Double number = Double.parseDouble(input.getText().trim());
-			if(number < 1 || number > 85) {
+			if(number < 1 || number > 84) {
 				return new InputValidator(false, "Please enter a time period between 1 and 84 months");
 			} else return new InputValidator(true);
 		

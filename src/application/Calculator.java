@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 
 public class Calculator {
 	
-	private final int numberOfMonthsInOneYear = 12;
+	private final int MONTHS_IN_YEAR = 12;
 	private static DecimalFormat df2 = new DecimalFormat(".##");
 
 	public double computeMonthlyPayment(TextField carPriceInputField, TextField downPaymentInputField, TextField interestRateInputField, TextField numberOfMonthsInputField)
@@ -47,7 +47,7 @@ public class Calculator {
 		}
 
 		double paymentDue = carPrice - downPayment;
-		double interestRatePerMonth = annualInterestRate / numberOfMonthsInOneYear;
+		double interestRatePerMonth = annualInterestRate / MONTHS_IN_YEAR;
 		
 		double monthlyPayment  = 0;
 		
