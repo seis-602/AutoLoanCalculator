@@ -31,19 +31,19 @@ public class Calculator {
 		int numberOfMonths = 0;
 				
 		if (!carPriceString.isEmpty() && isNumeric(carPriceString)) {
-			carPrice = Double.parseDouble(carPriceInputField.getText().trim());
+			carPrice = Double.parseDouble(carPriceString);
 		}
 		
 		if (!downPaymentString.isEmpty() && isNumeric(downPaymentString)) {
-			downPayment = Double.parseDouble(downPaymentInputField.getText().trim());
+			downPayment = Double.parseDouble(downPaymentString);
 		}
 		
 		if (!interestRateString.isEmpty() && isNumeric(interestRateString)) {
-			annualInterestRate = Double.parseDouble(interestRateInputField.getText().trim()) / 100;
+			annualInterestRate = Double.parseDouble(interestRateString) / 100;
 		}
 		
 		if (!numberOfMonthsString.isEmpty() && isNumeric(numberOfMonthsString)) {
-			numberOfMonths = Integer.parseInt(numberOfMonthsInputField.getText().trim());
+			numberOfMonths = Integer.parseInt(numberOfMonthsString);
 		}
 
 		double paymentDue = carPrice - downPayment;
@@ -90,15 +90,15 @@ public class Calculator {
 		double totalAmountPaid = this.computeTotalAmountPaid(carPriceInputField, downPaymentInputField, interestRateInputField, numberOfMonthsInputField);
 		
 		if (!carPriceString.isEmpty() && isNumeric(carPriceString)) {
-			carPrice = Double.parseDouble(carPriceInputField.getText().trim());
+			carPrice = Double.parseDouble(carPriceString);
 		}
 		
 		if (!downPaymentString.isEmpty() && isNumeric(downPaymentString)) {
-			downPayment = Double.parseDouble(downPaymentInputField.getText().trim());
+			downPayment = Double.parseDouble(downPaymentString);
 		}
 		
 		if (!interestRateString.isEmpty() && isNumeric(interestRateString)) {
-			annualInterestRate = Double.parseDouble(interestRateInputField.getText().trim());
+			annualInterestRate = Double.parseDouble(interestRateString);
 		}
 		
 		if (annualInterestRate != 0 && totalAmountPaid != 0) {
