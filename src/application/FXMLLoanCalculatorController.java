@@ -57,106 +57,77 @@ public class FXMLLoanCalculatorController implements Initializable {
     private URL location;
     @FXML
     private ResourceBundle resources;
+    
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Application Window Opened");
 		setupActions();
 	}
 	
 	
 	void setupActions() {
-		
-		setupCreditBracket();
-		
+		setupCreditComponent();
 		bindValidateInputs();
-		
 		bindMonthlyPayments();
 		bindTotalAmountPaid();
-		bindTotalInterestPaid();
+		bindTotalInterestPaid();	
 	}
 	
-	public void setupCreditBracket() {
+	
+	public void setupCreditComponent() {
 		// bind itemsComboBox with data
 		creditBracketmodel.loadData();
 		creditBracketComboBox.setItems(creditBracketmodel.itemsObservableList);
 		
 		//attach a listener to creditBracketComboBox
 		creditBracketComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-			
 			if (creditBracketComboBox.getSelectionModel().getSelectedIndex() >= 0) {
-				String creditBracketDescription = getCreditBracketDescription(newValue);
+				String creditBracketDescription = newValue.getDescription();
 				creditBracketDescriptionLabel.setText(creditBracketDescription);
 			}
-			
 		});
 	}
 	
 	private void bindValidateInputs() {
-		StringBinding carPriceErrorMessage = new StringBinding() { 
-			{
-				super.bind(carPriceInputField.textProperty());
-			}
-			
-			@Override
-			protected String computeValue() {
-				InputValidator inputValidator = formValidator.validPositiveNumber(carPriceInputField);
-				
-				if(!inputValidator.isValid()) {
-					return inputValidator.getErrorMessage();
-				} else return "";
-			}
-		};
-		
-		StringBinding downPaymentErrorMessage = new StringBinding() { 
-			{
-				super.bind(downPaymentInputField.textProperty());
-			}
-			
-			@Override
-			protected String computeValue() {
-				InputValidator inputValidator = formValidator.validPositiveNumber(downPaymentInputField);
-				
-				if(!inputValidator.isValid()) {
-					return inputValidator.getErrorMessage();
-				} else return "";
-			}
-		};
-		
-		StringBinding interestRateErrorMessage = new StringBinding() { 
-			{
-				super.bind(interestRateInputField.textProperty());
-			}
-			
-			@Override
-			protected String computeValue() {
-				InputValidator inputValidator = formValidator.validPositiveNumber(interestRateInputField);
-				
-				if(!inputValidator.isValid()) {
-					return inputValidator.getErrorMessage();
-				} else return "";
-			}
-		};
-		
-		StringBinding numberOfMonthsErrorMessage = new StringBinding() { 
-			{
-				super.bind(numberOfMonthsInputField.textProperty());
-			}
-			
-			@Override
-			protected String computeValue() {
-				InputValidator inputValidator = formValidator.validNumberOfMonths(numberOfMonthsInputField);
-				
-				if(!inputValidator.isValid()) {
-					return inputValidator.getErrorMessage();
-				} else return "";
-			}
-		};
-		
+		StringBinding carPriceErrorMessage = checkPositiveInteger(carPriceInputField);
 		monthlyPaymentErrorLabel.textProperty().bind(carPriceErrorMessage);
+		
+		StringBinding downPaymentErrorMessage = checkPositiveInteger(downPaymentInputField);
 		downPaymentErrorLabel.textProperty().bind(downPaymentErrorMessage);
+		
+		StringBinding interestRateErrorMessage = checkPositiveInteger(interestRateInputField);
 		interestRateErrorLabel.textProperty().bind(interestRateErrorMessage);
+		
+		StringBinding numberOfMonthsErrorMessage = checkMonthRange(numberOfMonthsInputField);
 		numberOfMonthsErrorLabel.textProperty().bind(numberOfMonthsErrorMessage);
+	}
+	
+	private StringBinding checkPositiveInteger(TextField inputField) {
+		return new StringBinding() { 
+				{ super.bind(inputField.textProperty()); }
+				
+				@Override
+				protected String computeValue() {
+					InputValidator inputValidator = formValidator.validPositiveNumber(inputField);
+					if(!inputValidator.isValid()) {
+						return inputValidator.getErrorMessage();
+					} else return "";
+				}
+			};
+	}
+	
+	public StringBinding checkMonthRange(TextField inputField) {
+		return new StringBinding() { 
+				{ super.bind(inputField.textProperty()); }
+				
+				@Override
+				protected String computeValue() {
+					InputValidator inputValidator = formValidator.validNumberOfMonths(inputField);
+					if(!inputValidator.isValid()) {
+						return inputValidator.getErrorMessage();
+					} else return "";
+				}
+			};
 	}
 	
 	
@@ -224,23 +195,5 @@ public class FXMLLoanCalculatorController implements Initializable {
 		};
 		
 		totalInterestPaidResultLabel.textProperty().bind(Bindings.format("$%.2f", totalInterestPaid));
-	}
-	
-	private String getCreditBracketDescription(CreditBracket creditBracket) {
-		
-		String newCarInterestRateString = String.format("%.2f", creditBracket.getAverageNewCarInterestRate()).concat("%");
-		String usedCarInterestRateString = String.format("%.2f", creditBracket.getAverageUsedCarInterestRate()).concat("%");
-		
-		String description = "Based on your score, the average rate is "
-								.concat(newCarInterestRateString)
-								.concat(" (new) or ")
-								.concat(usedCarInterestRateString)
-								.concat("  (used).");
-		
-		if(creditBracket.getName().toLowerCase().equals("deep subprime")) {
-			description = description.concat(" Consider buying an inexpensive used car and refinancing in 6-12 months.");
-		}
-		
-		return description;
 	}
 }

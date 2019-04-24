@@ -8,10 +8,15 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
+	
+	public static void main(String[] args) {
+		 launch(args);
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("FXMLLoanCalculator.fxml"));
+			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("FXMLLoanCalculator.fxml"));
 			Scene scene = new Scene(root,750,800);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -20,7 +25,4 @@ public class Main extends Application {
 		}
 	}
 	
-	public static void main(String[] args) {
-		 launch(args);
-	}
 }

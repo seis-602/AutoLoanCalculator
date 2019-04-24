@@ -40,5 +40,22 @@ public class CreditBracket {
 		return name.concat(" (").concat(getBracket()).concat(")");
 	}
 	
+	public String getDescription() {
+		String newCarInterestRateString = String.format("%.2f", this.averageRateNew).concat("%");
+		String usedCarInterestRateString = String.format("%.2f", this.averageRateUsed).concat("%");
+		
+		String description = "Based on your score, the average rate is "
+								.concat(newCarInterestRateString)
+								.concat(" (new) or ")
+								.concat(usedCarInterestRateString)
+								.concat("  (used).");
+		
+		if (this.name.toLowerCase().equals("deep subprime")) {
+			description = description.concat(" Consider buying an inexpensive used car and refinancing in 6-12 months.");
+		}
+		
+		return description;
+	}
+	
 	
 }
