@@ -1,38 +1,70 @@
 package application;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
 
 public class FormValidator {
 	
-	public InputValidator validPositiveNumber(TextField input) {
-		return checkForValidPositiveNumber(input);
+	public void checkPositiveDouble2(TextField input) {
+		
+		// add listener on input
+		input.textProperty().addListener(new ChangeListener<String>() {
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		    	
+		    	if (!newValue.matches("\\d*\\.?\\d{0,2}")) {
+		    		
+		    		// replace with only digits and decimal points
+		    		String str = newValue.replaceAll("[^0-9.]", "");
+		    		
+		    		// split by first decimal point
+		    		String[] parts = str.split("\\.", 2);
+		    		
+		    		// if has decimal value
+		    		if (parts.length > 1) {
+		    			
+		    			String decimals = parts[1].replaceAll("\\.", "");
+		    			
+		    			// if decimals is more then 2 digits long
+		    			if (parts[1].replaceAll("\\.", "").length() >= 2) {
+		    				decimals = decimals.substring(0, 2);
+		    			}
+		    			
+ 		    			// format string with one decimal point and 2 digit decimals
+		    			str = parts[0] + "." + decimals;
+		    		}
+
+		    		input.setText(str);
+    			}
+		    }
+		});
 	}
 	
-	public InputValidator validNumberOfMonths(TextField input) {
-		InputValidator validator = checkForValidPositiveNumber(input);
+	public void checkMonthRange(TextField input) {
 		
-		if (validator.isValid() && !input.getText().trim().isEmpty()) {
-			Double number = Double.parseDouble(input.getText().trim());
-			if(number < 1 || number > 84) {
-				return new InputValidator(false, "Please enter a time period between 1 and 84 months");
-			} else return new InputValidator(true);
-		
-		} else return validator;
-	}
-	
-	
-	private InputValidator checkForValidPositiveNumber(TextField input) {
-		
-		boolean valid = true;
-		String message = "";
-		
-		String str = input.getText().trim();
-		
-		if (!str.isEmpty() && !Calculator.isNumeric(str)) {
-			valid = false;
-			message = "Please enter a valid number.";
-		}
-		
-		return new InputValidator(valid, message);
+		// add listener
+		// Credit: https://stackoverflow.com/questions/7555564/what-is-the-recommended-way-to-make-a-numeric-textfield-in-javafx
+		input.textProperty().addListener(new ChangeListener<String>() {
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		        
+		    	String str = newValue;
+		    	
+		    	// if not only numeric values
+		    	if (!str.matches("\\d*")) {
+		    		str = newValue.replaceAll("[^\\d]", "");
+		        }
+		    	
+		    	// restrict to 1 - 84 months
+		    	if (!str.isEmpty()) {
+		    		if (Integer.parseInt(str) < 1) {
+		        		str = "1";
+		        	} else if (Integer.parseInt(str) > 84) {
+		        		str = "84";
+		        	}
+		    	}
+	        	
+	        	input.setText(str);
+		    }
+		});
 	}
 }

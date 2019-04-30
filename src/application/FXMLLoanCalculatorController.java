@@ -1,6 +1,7 @@
 package application;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 import javafx.beans.binding.Bindings;
@@ -36,17 +37,9 @@ public class FXMLLoanCalculatorController implements Initializable {
 	
 	
 	@FXML
-	private Label monthlyPaymentErrorLabel;
-	@FXML
-	private Label downPaymentErrorLabel;
-	@FXML
-	private Label interestRateErrorLabel;
-	@FXML
-	private Label numberOfMonthsErrorLabel;
-	
-	
-	@FXML
 	private Label monthlyPaymentResultLabel;
+	@FXML
+	private Label lastPaymentResultLabel;
 	@FXML
 	private Label totalAmountPaidResultLabel;
 	@FXML
@@ -68,9 +61,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 	void setupActions() {
 		setupCreditComponent();
 		bindValidateInputs();
-		bindMonthlyPayments();
-		bindTotalAmountPaid();
-		bindTotalInterestPaid();	
+		bindFields();
 	}
 	
 	
@@ -79,7 +70,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 		creditBracketmodel.loadData();
 		creditBracketComboBox.setItems(creditBracketmodel.itemsObservableList);
 		
-		//attach a listener to creditBracketComboBox
+		//attach listener to creditBracketComboBox
 		creditBracketComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
 			if (creditBracketComboBox.getSelectionModel().getSelectedIndex() >= 0) {
 				String creditBracketDescription = newValue.getDescription();
@@ -88,112 +79,89 @@ public class FXMLLoanCalculatorController implements Initializable {
 		});
 	}
 	
-	private void bindValidateInputs() {
-		StringBinding carPriceErrorMessage = checkPositiveInteger(carPriceInputField);
-		monthlyPaymentErrorLabel.textProperty().bind(carPriceErrorMessage);
-		
-		StringBinding downPaymentErrorMessage = checkPositiveInteger(downPaymentInputField);
-		downPaymentErrorLabel.textProperty().bind(downPaymentErrorMessage);
-		
-		StringBinding interestRateErrorMessage = checkPositiveInteger(interestRateInputField);
-		interestRateErrorLabel.textProperty().bind(interestRateErrorMessage);
-		
-		StringBinding numberOfMonthsErrorMessage = checkMonthRange(numberOfMonthsInputField);
-		numberOfMonthsErrorLabel.textProperty().bind(numberOfMonthsErrorMessage);
-	}
 	
-	private StringBinding checkPositiveInteger(TextField inputField) {
-		return new StringBinding() { 
-				{ super.bind(inputField.textProperty()); }
-				
-				@Override
-				protected String computeValue() {
-					InputValidator inputValidator = formValidator.validPositiveNumber(inputField);
-					if(!inputValidator.isValid()) {
-						return inputValidator.getErrorMessage();
-					} else return "";
-				}
-			};
-	}
-	
-	public StringBinding checkMonthRange(TextField inputField) {
-		return new StringBinding() { 
-				{ super.bind(inputField.textProperty()); }
-				
-				@Override
-				protected String computeValue() {
-					InputValidator inputValidator = formValidator.validNumberOfMonths(inputField);
-					if(!inputValidator.isValid()) {
-						return inputValidator.getErrorMessage();
-					} else return "";
-				}
-			};
+	public void bindValidateInputs() {
+		formValidator.checkPositiveDouble2(carPriceInputField);
+		formValidator.checkPositiveDouble2(downPaymentInputField);
+		formValidator.checkPositiveDouble2(interestRateInputField);
+		formValidator.checkMonthRange(numberOfMonthsInputField);
 	}
 	
 	
-	private void bindMonthlyPayments() {
-		
-		//create monthlyPayment as low level DoubleBinding 
-		DoubleBinding monthlyPayment = new DoubleBinding() { 
-			{
-				super.bind(
+	private void bindFields() {
+    	DoubleBinding monthlyPaymentBinding = new DoubleBinding() {
+    		{
+    			super.bind(
 						carPriceInputField.textProperty(), 
 						downPaymentInputField.textProperty(), 
 						interestRateInputField.textProperty(),
 						numberOfMonthsInputField.textProperty()
 					);
-			}
-			
-			@Override
-			protected double computeValue() {
-				return calculator.computeMonthlyPayment(carPriceInputField, downPaymentInputField, interestRateInputField, numberOfMonthsInputField);
-			}
-		};
-		
-		monthlyPaymentResultLabel.textProperty().bind(Bindings.format("$%.2f", monthlyPayment));
-	}
-	
-	private void bindTotalAmountPaid() {
-		
-		//create totalAmountPaid as low level DoubleBinding 
-		DoubleBinding totalAmountPaid = new DoubleBinding() { 
-			{
-				super.bind(
-						carPriceInputField.textProperty(), 
-						downPaymentInputField.textProperty(), 
-						interestRateInputField.textProperty(),
-						numberOfMonthsInputField.textProperty()
-					);
-			}
-			
-			@Override
-			protected double computeValue() {
-				return calculator.computeTotalAmountPaid(carPriceInputField, downPaymentInputField, interestRateInputField, numberOfMonthsInputField);
-			}
-		};
-		
-		totalAmountPaidResultLabel.textProperty().bind(Bindings.format("$%.2f", totalAmountPaid));
-	}
-	
-	private void bindTotalInterestPaid() {
-		
-		//create totalAmountPaid as low level DoubleBinding 
-		DoubleBinding totalInterestPaid = new DoubleBinding() { 
-			{
-				super.bind(
-						carPriceInputField.textProperty(), 
-						downPaymentInputField.textProperty(), 
-						interestRateInputField.textProperty(),
-						numberOfMonthsInputField.textProperty()
-					);
-			}
-			
-			@Override
-			protected double computeValue() {
-				return calculator.computeTotalInterestPaid(carPriceInputField, downPaymentInputField, interestRateInputField, numberOfMonthsInputField);
-			}
-		};
-		
-		totalInterestPaidResultLabel.textProperty().bind(Bindings.format("$%.2f", totalInterestPaid));
-	}
+    		}
+    		
+    		@Override
+    		protected double computeValue() {
+    			
+    			String carPriceString = carPriceInputField.getText().trim();
+    			String downPaymentString = downPaymentInputField.getText().trim();
+    			String interestRateString = interestRateInputField.getText().trim();
+    			String numberOfMonthsString = numberOfMonthsInputField.getText().trim();
+    			
+    			if (!carPriceString.isEmpty() && !downPaymentString.isEmpty() && !interestRateString.isEmpty() && !numberOfMonthsString.isEmpty()) {
+    				try {
+    					double carPrice = Double.parseDouble(carPriceString);
+    					double tradeInDP = Double.parseDouble(downPaymentString);
+    					double principal = carPrice - tradeInDP;
+    					double interestRate = Double.parseDouble(interestRateString);
+    					int numberOfMonths = Integer.parseInt(numberOfMonthsString);
+    				
+    					if(numberOfMonths < 85) {
+    						double monthlyPayment = calculator.calculateMonthlyPayment(principal, interestRate, numberOfMonths);
+    						double totalAmountPaid = totalAmountPaid(monthlyPayment, numberOfMonths);
+    						totalInterestPaid(principal, numberOfMonths, monthlyPayment);
+    						setLastPayment(totalAmountPaid, numberOfMonths, monthlyPayment);
+    						return monthlyPayment;
+    					} else
+    						clearFields(); 
+    						return 0;
+    				} catch(NumberFormatException e) {
+    					e.printStackTrace();
+    					clearFields();
+    				}
+    			} else {
+    				clearFields();
+    			};
+    			
+    			return 0;
+    		}
+    	};
+    	
+    	monthlyPaymentResultLabel.textProperty().bind(Bindings.format("$%.2f", monthlyPaymentBinding));
+    }
+    
+    private double totalAmountPaid(Double monthlyPayment, Integer numberOfMonths) {
+    	String totalAmountPaid = calculator.calculateTotalAmountPaid(monthlyPayment, numberOfMonths);
+    	totalAmountPaidResultLabel.setText("$" + totalAmountPaid);
+    	return Double.parseDouble(totalAmountPaid);
+   }
+ 
+    private void totalInterestPaid(Double principal, Integer numberOfMonths, Double monthlyPayment) {
+    	String totalInterestPaid = calculator.calculateTotalInterestPaid(principal, numberOfMonths, monthlyPayment);
+    	totalInterestPaidResultLabel.setText("$" + totalInterestPaid);
+    }
+    
+    private void setLastPayment(Double totalAmountPaid, Integer numberOfMonths, Double monthlyPayment) {
+    	String lastPayment = calculator.calculateLastPayment(totalAmountPaid, monthlyPayment, numberOfMonths);
+    	DecimalFormat df = new DecimalFormat("#.00"); 
+    	
+    	if (!lastPayment.equals(df.format(monthlyPayment))) {
+    		lastPaymentResultLabel.setText("with the last month payment of $" + lastPayment);
+    	} else lastPaymentResultLabel.setText("");
+    }
+    
+    private void clearFields() {
+    	totalInterestPaidResultLabel.setText("");
+    	totalAmountPaidResultLabel.setText("");
+    	lastPaymentResultLabel.setText("");
+    }
 }

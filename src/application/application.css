@@ -64,6 +64,12 @@
     -fx-padding: 0 0 28 0;
 }
 
+.text-result-sm {
+    -fx-font-size: 12;
+    -fx-text-fill: #0D61B6;
+    -fx-padding: 2 0 0 0;
+}
+
 .text-result {
     -fx-font-size: 25;
     -fx-text-fill: #0D61B6;

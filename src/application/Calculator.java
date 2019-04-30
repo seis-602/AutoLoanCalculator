@@ -2,110 +2,57 @@ package application;
 
 import java.text.DecimalFormat;
 
-import javafx.scene.control.TextField;
-
-/*
- * Auto Loan Payment formula (amortization loan)
- * Use the formula A= P * ( r * (1+r)^{n} ) / ( (1+r)^{n} - 1 ).
- * A = the monthly payment.
- * P = the principal
- * r = the interest rate per month, which equals the annual interest rate divided by 12
- * n = the total number of months
- */
-
 public class Calculator {
 	
-	private final int MONTHS_IN_YEAR = 12;
-	private static DecimalFormat df2 = new DecimalFormat(".##");
-
-	public double computeMonthlyPayment(TextField carPriceInputField, TextField downPaymentInputField, TextField interestRateInputField, TextField numberOfMonthsInputField)
-	{
-		String carPriceString = carPriceInputField.getText().trim();
-		String downPaymentString = downPaymentInputField.getText().trim();
-		String interestRateString = interestRateInputField.getText().trim();
-		String numberOfMonthsString = numberOfMonthsInputField.getText().trim();
+	private Double monthlyPayment;
+	private DecimalFormat df = new DecimalFormat("#0.00");
+	
+	public Double calculateMonthlyPayment(Double principal, Double interestRate,  Integer numberOfMonths) {
 		
-		double carPrice = 0;
-		double downPayment = 0;
-		double annualInterestRate = 0;
-		int numberOfMonths = 0;
-				
-		if (!carPriceString.isEmpty() && isNumeric(carPriceString)) {
-			carPrice = Double.parseDouble(carPriceString);
-		}
+		Double monthlyRate;
 		
-		if (!downPaymentString.isEmpty() && isNumeric(downPaymentString)) {
-			downPayment = Double.parseDouble(downPaymentString);
-		}
+		//Calculate monthly payment
+		if(interestRate != 0 && numberOfMonths !=0) {
+			interestRate /= 100;
+			monthlyRate = interestRate / 12;
+			monthlyPayment = (principal * monthlyRate)/((1-Math.pow(1+monthlyRate, -numberOfMonths)));
+		} else if(interestRate == 0 && numberOfMonths != 0) {
+			monthlyPayment = principal / numberOfMonths;
+		} else monthlyPayment = 0.0;
 		
-		if (!interestRateString.isEmpty() && isNumeric(interestRateString)) {
-			annualInterestRate = Double.parseDouble(interestRateString) / 100;
-		}
-		
-		if (!numberOfMonthsString.isEmpty() && isNumeric(numberOfMonthsString)) {
-			numberOfMonths = Integer.parseInt(numberOfMonthsString);
-		}
-
-		double paymentDue = carPrice - downPayment;
-		double interestRatePerMonth = annualInterestRate / MONTHS_IN_YEAR;
-		
-		double monthlyPayment  = 0;
-		
-		if (carPrice != 0 && numberOfMonths != 0) {
-			if (annualInterestRate == 0) {
-				monthlyPayment = paymentDue / numberOfMonths;
-			} else {
-				monthlyPayment = paymentDue * ( interestRatePerMonth * Math.pow(1 + interestRatePerMonth, numberOfMonths) ) / ( Math.pow(1 + interestRatePerMonth, numberOfMonths) - 1 );	
-			}
-		}
-		
-		return Double.parseDouble(df2.format(monthlyPayment));
-			
+		return monthlyPayment;
 	}
 	
-	
-	public double computeTotalAmountPaid(TextField carPriceInputField, TextField downPaymentInputField, TextField interestRateInputField, TextField numberOfMonthsInputField)
-	{
-		String numberOfMonthsString = numberOfMonthsInputField.getText().trim();
+	public String calculateTotalInterestPaid(Double principal, Integer numberOfMonths, Double monthlyPayment) {
 		
-		double monthlyPayment = this.computeMonthlyPayment(carPriceInputField, downPaymentInputField, interestRateInputField, numberOfMonthsInputField);
+		Double TIP;
 		
-		if (!numberOfMonthsString.isEmpty() && isNumeric(numberOfMonthsString)) {
-			int numberOfMonths = Integer.parseInt(numberOfMonthsInputField.getText().trim());
-			return monthlyPayment * numberOfMonths;
-		} else return 0;
+		if (numberOfMonths >= 1) {
+			TIP = (monthlyPayment *= numberOfMonths) - principal;
+		} else TIP = 0.0;
+		
+		String totalInterestPaid = df.format(TIP);
+		
+		return totalInterestPaid;
 	}
 	
+	public String calculateTotalAmountPaid(Double monthlyPayment, Integer numberOfMonths) {
+		
+		//Need to add remainder to total amount paid?
+		Double TAP = monthlyPayment *= numberOfMonths;
+		String totalAmountPaid = df.format(TAP);
+		
+		return totalAmountPaid;
+	}
 	
-	public double computeTotalInterestPaid(TextField carPriceInputField, TextField downPaymentInputField, TextField interestRateInputField, TextField numberOfMonthsInputField)
-	{
-		String carPriceString = carPriceInputField.getText().trim();
-		String downPaymentString = downPaymentInputField.getText().trim();
-		String interestRateString = interestRateInputField.getText().trim();
+	public String calculateLastPayment(Double totalAmountPaid, Double monthlyPayment, Integer numberOfMonths) {
+		String monthlyPaymentString = df.format(monthlyPayment);
+		monthlyPayment = Double.parseDouble(monthlyPaymentString);
 		
-		double carPrice = 0;
-		double downPayment = 0;
-		double annualInterestRate = 0;
-		
-		double totalAmountPaid = this.computeTotalAmountPaid(carPriceInputField, downPaymentInputField, interestRateInputField, numberOfMonthsInputField);
-		
-		if (!carPriceString.isEmpty() && isNumeric(carPriceString)) {
-			carPrice = Double.parseDouble(carPriceString);
-		}
-		
-		if (!downPaymentString.isEmpty() && isNumeric(downPaymentString)) {
-			downPayment = Double.parseDouble(downPaymentString);
-		}
-		
-		if (!interestRateString.isEmpty() && isNumeric(interestRateString)) {
-			annualInterestRate = Double.parseDouble(interestRateString);
-		}
-		
-		if (annualInterestRate != 0 && totalAmountPaid != 0) {
-			return totalAmountPaid - (carPrice - downPayment);
-		}
-		
-		return 0;
+		Double remainder = totalAmountPaid - (monthlyPayment * numberOfMonths);
+		monthlyPayment += remainder;
+		String lastPayment = df.format(monthlyPayment);
+		return lastPayment;
 	}
 	
 	// positive numeric only

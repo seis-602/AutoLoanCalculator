@@ -47,7 +47,6 @@
                                           <Label styleClass="form-label" text="Car price ($)" />
                                           <TextField fx:id="carPriceInputField" styleClass="form-control" />
                                           <Label styleClass="text-muted" text="After negotiations" wrapText="true" />
-                                          <Label fx:id="monthlyPaymentErrorLabel" styleClass="text-error" />
                                        </children>
                                        <VBox.margin>
                                           <Insets />
@@ -58,7 +57,6 @@
                                           <Label styleClass="form-label" text="Trade-in / down payment ($)" />
                                           <TextField fx:id="downPaymentInputField" styleClass="form-control" />
                                           <Label styleClass="text-muted" text="Your trade-in can be all or part of a down payment" wrapText="true" />
-                                          <Label fx:id="downPaymentErrorLabel" styleClass="text-error" />
                                        </children>
                                     </VBox>
                                     <VBox layoutX="10.0" layoutY="265.0" styleClass="form-group">
@@ -66,15 +64,13 @@
                                           <Label styleClass="form-label" text="Interest rate (%)" />
                                           <TextField fx:id="interestRateInputField" styleClass="form-control" />
                                           <Label styleClass="text-muted" text="A higher credit score means lower interest rates" wrapText="true" />
-                                          <Label fx:id="interestRateErrorLabel" styleClass="text-error" />
                                        </children>
                                     </VBox>
                                     <VBox layoutX="10.0" layoutY="363.0" styleClass="form-group">
                                        <children>
                                           <Label styleClass="form-label" text="Number of months" />
                                           <TextField fx:id="numberOfMonthsInputField" styleClass="form-control" />
-                                          <Label styleClass="text-muted" text="Suggested max: 36 months for used cars, 60 for new. We do not finance you less than 1 month" wrapText="true" />
-                                          <Label fx:id="numberOfMonthsErrorLabel" styleClass="text-error" />
+                                          <Label styleClass="text-muted" text="Suggested max: 36 months for used cars, 60 for new. We do not finance you less than 1 month or more than 84 months." wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -90,6 +86,7 @@
                                        <children>
                                           <Label styleClass="form-label" text="Monthly payment" />
                                           <Label fx:id="monthlyPaymentResultLabel" styleClass="text-result" />
+                                          <Label fx:id="lastPaymentResultLabel" styleClass="text-result-sm" />
                                           <Label styleClass="text-muted" text="(Before taxes &amp; fees)" wrapText="true" />
                                        </children>
                                     </VBox>
