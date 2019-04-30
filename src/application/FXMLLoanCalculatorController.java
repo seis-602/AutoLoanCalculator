@@ -70,7 +70,7 @@ public class FXMLLoanCalculatorController implements Initializable {
 		creditBracketmodel.loadData();
 		creditBracketComboBox.setItems(creditBracketmodel.itemsObservableList);
 		
-		//attach listener to creditBracketComboBox
+		// attach listener to creditBracketComboBox
 		creditBracketComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
 			if (creditBracketComboBox.getSelectionModel().getSelectedIndex() >= 0) {
 				String creditBracketDescription = newValue.getDescription();

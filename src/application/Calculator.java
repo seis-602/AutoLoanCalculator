@@ -52,6 +52,7 @@ public class Calculator {
 		Double remainder = totalAmountPaid - (monthlyPayment * numberOfMonths);
 		monthlyPayment += remainder;
 		String lastPayment = df.format(monthlyPayment);
+		
 		return lastPayment;
 	}
 	

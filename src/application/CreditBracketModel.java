@@ -11,7 +11,7 @@ public class CreditBracketModel {
 	
 	ObservableList<CreditBracket> itemsObservableList = FXCollections.observableArrayList();
 	
-	void loadData() {
+	public void loadData() {
 		try (BufferedReader br = new BufferedReader(new FileReader("data/CreditBracketMaster.csv"))) {
 			String line = null;
 			while ((line = br.readLine()) != null) {
@@ -30,5 +30,9 @@ public class CreditBracketModel {
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ObservableList<CreditBracket> getObservableList() {
+		return itemsObservableList;
 	}
 }
