@@ -1,6 +1,4 @@
-![Alt text](imgs/stthomas-logo.svg?raw=true "Title")
-
-<img src="./imgs/stthomas-logo.svg">
+<img src="./imgs/stthomas-logo.svg" style="max-width:100%; height:80px;margin-bottom:20px;">
 
 This java project is part of the University of St Thomas SEIS602 course.
 
