@@ -1,4 +1,6 @@
-<img src="./imgs/stthomas-logo.svg" style="max-width:100%; height:80px;margin-bottom:20px;">
+<img src="./imgs/stthomas-logo.svg" height="80">
+
+---
 
 This java project is part of the University of St Thomas SEIS602 course.
 
